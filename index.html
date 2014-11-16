@@ -4,9 +4,11 @@
     <meta charset="utf-8" />
     <title>Air DJ</title>
     <link rel="stylesheet" type="text/css" href="css/hide-movehand.css">
+    <link rel="stylesheet" type="text/css" href="css/progress.css">
   </head>
   <body>
-	<input id="fileInput" type="file" id="file" />
+    <input id="fileInput" type="file" id="file" />
+    <div id="progress-circle"></div>
     <script type="text/javascript" src="http://js.leapmotion.com/leap-0.6.0.js"></script>
     <script src="http://js.leapmotion.com/leap-plugins-0.1.6.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.min.js"></script>
@@ -17,8 +19,8 @@
         .use('riggedHand')
         .connect()
     </script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script src="js/conduct.js"></script>
-	<embed src="Click1.wav" autostart="false" width="0" height="0" id="sound1" enablejavascript="true">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="js/conduct.js"></script>
+    <embed src="Click1.wav" autostart="false" width="0" height="0" id="sound1" enablejavascript="true">
   </body>
 </html>
