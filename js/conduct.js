@@ -27,7 +27,7 @@ $(document).ready(function() {
 
 function runner(){
 	console.log("File changed");
-	actual_bpm = get_tempo($(this).val());
+	actual_bpm = get_tempo();
 };
 
 function bpm_from_measure() {
@@ -73,26 +73,9 @@ function changeMusic(bpm, avgPeakToPeak) {
 	
 }
 
-function get_tempo(file) {
-	//if(file.substring(file.length - 3) != "mp3") { 
-		var y = window.prompt("Please input BPM");
-		return y;
-	//}
-	/*file = file.replace('C:\\fakepath', './media').replace(/\\/g, "/");
-	console.log(file);
-	$.ajax({
-		method: 'post',
-		url: "bmp_from_wav.php",
-		data: "file="+file,
-		success: function(data, textStatus, jqXHR) {
-			console.log('Success ' + data);
-			y=data;
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			console.log('error');
-		}
-	});
-	return y;*/
+function get_tempo() {
+	var y = window.prompt("Please input BPM");
+	return y;
 }
 
 conductController = new Leap.Controller({
