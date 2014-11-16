@@ -1,25 +1,31 @@
 var previousPosition = [];
 var actual_bpm=122;
-
+var x;
 window.measure = [0,new Date().getTime()];
 window.currentbeat = 0;
 
-/*var metronome = setInterval(play(), 240000/actual_bpm);
+/*var metronome;
+var sound;
+$(document).ready(function() {
+metronome = setInterval(playen(), 240000/actual_bpm);
+sound = document.getElementById(sound1);
+});
 
-function play() {
-	var sound = document.getElementById(metnoise);
+function playen() {
 	sound.Play();
 };
 
 function reset_the_metro(b) {
 	clearInterval(metronome);
-	metronome = setInterval(play(), 240000/b);
+	metronome = setInterval(playen(), 240000/b);
 };*/
-//$( document ).ready(function() {
-//	actual_bpm = get_tempo(file);
-//});
 
-var x = document.getElementById("file");
+
+$(document).ready(function() {
+	$("#file").change(function(){
+	actual_bpm = get_tempo($("#file").value);
+	});
+});
 
 function bpm_from_measure() {
 	window.measure[0] = window.measure[1];
