@@ -44,12 +44,19 @@
 			(function repeat() {
 				circle = circle.transition()
 		<!-- equals two beats --> 
-           .duration(1000)
+		var mult;
+		if(currentbeat>0){
+			mult = currentbeat/30;
+		}
+		else {
+			mult = 1;
+		}
+           .duration(300*mult)
 					.attr("stroke-width", 20)
 					.attr("r", 10)
 					.transition()
 		<!-- equals two beats --> 
-           .duration(1000)
+           .duration(900*mult)
 					.attr('stroke-width', 0.5)
 					.attr("r", 200)
 					.ease('sine')
