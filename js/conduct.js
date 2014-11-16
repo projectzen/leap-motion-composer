@@ -40,7 +40,7 @@ function bpm_from_measure() {
 function changeMusic(bpm, avgPeakToPeak) {
 //	$.ajax("http://localhost:8080/requests/status.xml?command=rate&val=" + (bpm / actual_bpm));
 	//var data = "url=http://localhost:8080/requests/status.xml?command=rate&val=2"//+bpm/actual_bpm;
-	var data = "speed=" + bpm/actual_bpm + "&vol=" + (75+ avgPeakToPeak * 2.5);
+	var data = "speed=" + bpm/actual_bpm + "&vol=" + (90 + avgPeakToPeak * 2);
 	console.log(data);
 	//var url = "http://localhost:8080/requests/status.xml&command=rate&val="+bpm/actual_bpm;
 	/*$.ajax({
