@@ -1,6 +1,7 @@
 var previousPosition = [];
 var actual_bpm=122;
 var x;
+var speed;
 window.measure = [0,new Date().getTime()];
 window.currentbeat = 0;
 
@@ -41,6 +42,7 @@ function changeMusic(bpm, avgPeakToPeak) {
 //	$.ajax("http://localhost:8080/requests/status.xml?command=rate&val=" + (bpm / actual_bpm));
 	//var data = "url=http://localhost:8080/requests/status.xml?command=rate&val=2"//+bpm/actual_bpm;
 	var data = "speed=" + bpm/actual_bpm + "&vol=" + (90 + avgPeakToPeak * 2);
+	speed = bpm/actual_bpm;
 	console.log(data);
 	//var url = "http://localhost:8080/requests/status.xml&command=rate&val="+bpm/actual_bpm;
 	/*$.ajax({
