@@ -32,7 +32,7 @@
 			circle 
 				{
 					fill: #598FAB;
-					stroke: #444444;
+					stroke: #5289A4;
 				}
 		</style>
 
@@ -56,7 +56,7 @@
 			.data(y.domain())
 			.enter()
 			.append("circle")
-			.attr("stroke-width", 20)
+			.attr("stroke-width", 4)
 			.attr("r", 10)
 			.attr("cx", width / 2)
 			.attr("cy", y)
@@ -74,7 +74,7 @@
 		<!-- equals two beats --> 
            .duration(1000)
 					.attr('stroke-width', 0.5)
-					.attr("r", 130)
+					.attr("r", 200)
 					.ease('sine')
 					.each("end", repeat);
 			})();
