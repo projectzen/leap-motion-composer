@@ -22,8 +22,10 @@ function reset_the_metro(b) {
 
 
 $(document).ready(function() {
-	$("#file").change(function(){
-	actual_bpm = get_tempo($("#file").value);
+	$("canvas").css("top", "30px");
+	$("#fileInput").change(function(){
+		console.log("File changed");
+		actual_bpm = get_tempo($(this).val());
 	});
 });
 
@@ -37,7 +39,7 @@ function bpm_from_measure() {
 function changeMusic(bpm, avgPeakToPeak) {
 //	$.ajax("http://localhost:8080/requests/status.xml?command=rate&val=" + (bpm / actual_bpm));
 	//var data = "url=http://localhost:8080/requests/status.xml?command=rate&val=2"//+bpm/actual_bpm;
-	var data = "speed=" + bpm/actual_bpm + "&vol=" + avgPeakToPeak * 4;
+	var data = "speed=" + bpm/actual_bpm + "&vol=" + (50 + avgPeakToPeak * 3);
 	console.log(data);
 	//var url = "http://localhost:8080/requests/status.xml&command=rate&val="+bpm/actual_bpm;
 	/*$.ajax({
@@ -71,11 +73,14 @@ function changeMusic(bpm, avgPeakToPeak) {
 }
 
 function get_tempo(file) {
-	if(substr((file),-3)!="wav") { 
-		var y = window.prompt("BPM can't be detected. Please input BPM");
+	//if(file.substring(file.length - 3) != "mp3") { 
+		var y = window.prompt("Please input BPM");
 		return y;
-	}
+	//}
+	/*file = file.replace('C:\\fakepath', './media').replace(/\\/g, "/");
+	console.log(file);
 	$.ajax({
+		method: 'post',
 		url: "bmp_from_wav.php",
 		data: "file="+file,
 		success: function(data, textStatus, jqXHR) {
@@ -86,7 +91,7 @@ function get_tempo(file) {
 			console.log('error');
 		}
 	});
-	return y;
+	return y;*/
 }
 
 conductController = new Leap.Controller({
@@ -99,26 +104,52 @@ conductController.connect();
 var sumPeakToPeak = 0;
 var lastBottom;
 
+var paused = false;
+
 conductController.on('frame', function(frame) {
-	for (var i in frame.fingers) {
-		if (frame.fingers[i].type == 1) {
-			var position = frame.fingers[i].tipPosition;
-			if (previousPosition) {
-				if (window.currentbeat % 2 == 0 && previousPosition[1] < position[1] - 10)  {
-					window.currentbeat = window.currentbeat + 1;
-					lastBottom = previousPosition[1];
-				}
-				else if (window.currentbeat % 2 == 1 && previousPosition[1] > position[1] + 10)  {
-					window.currentbeat = (window.currentbeat + 1) % 8;
-					var peakToPeak = previousPosition[1] - lastBottom;
-					sumPeakToPeak += peakToPeak;
-					if (window.currentbeat == 0) {
-						changeMusic(bpm_from_measure(), sumPeakToPeak / 4);
+	if (frame.hands.length > 0) {
+		if (frame.hands[0].grabStrength > 0.9) {
+			if(!paused) {
+				$.ajax({
+					url: "stop.php",
+					type: "POST",
+					success: function(data, textStatus, jqXHR){
+						console.log('Success ' + data);
+						},
+					error: function (jqXHR, textStatus, errorThrown){
+						console.log('Error ' + JSON.stringify(jqXHR));
+						}
+				});
+				window.currentbeat = 0;
+				window.measure[1] = -1;
+				paused = true;
+			}
+		} else {
+			if (window.measure[1] == -1) {
+				window.measure[1] == new Date().getTime();
+			}
+			for (var i in frame.fingers) {
+				if (frame.fingers[i].type == 1) {
+					var position = frame.fingers[i].tipPosition;
+					if (previousPosition) {
+						if (window.currentbeat % 2 == 0 && previousPosition[1] < position[1] - 10)  {
+							window.currentbeat = window.currentbeat + 1;
+							lastBottom = previousPosition[1];
+						}
+						else if (window.currentbeat % 2 == 1 && previousPosition[1] > position[1] + 10)  {
+							window.currentbeat = (window.currentbeat + 1) % 8;
+							var peakToPeak = previousPosition[1] - lastBottom;
+							sumPeakToPeak += peakToPeak;
+							if (window.currentbeat == 0) {
+								changeMusic(bpm_from_measure(), sumPeakToPeak / 4);
+								paused = false;
+							}
+							sumPeakToPeak = 0;
+						}
 					}
-					sumPeakToPeak = 0;
+					previousPosition = position;
 				}
 			}
-			previousPosition = position;
 		}
 	}
 });
