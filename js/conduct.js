@@ -4,7 +4,7 @@ var actual_bpm = 122;
 window.measure = [0,new Date().getTime()];
 window.currentbeat = 0;
 
-var metronome = setInterval(play(), 240000/actual_bpm);
+/*var metronome = setInterval(play(), 240000/actual_bpm);
 
 function play() {
 	var sound = document.getElementById(metnoise);
@@ -14,7 +14,7 @@ function play() {
 function reset_the_metro(b) {
 	clearInterval(metronome);
 	metronome = setInterval(play(), 240000/b);
-};
+};*/
 
 function bpm_from_measure() {
 	window.measure[0] = window.measure[1];
@@ -25,16 +25,35 @@ function bpm_from_measure() {
 
 function changeTempo(bpm) {
 //	$.ajax("http://localhost:8080/requests/status.xml?command=rate&val=" + (bpm / actual_bpm));
-	var data = "url=http://localhost:8080/requests/status.xml&command=rate&val="+bpm/actual_bpm;
+	//var data = "url=http://localhost:8080/requests/status.xml?command=rate&val=2"//+bpm/actual_bpm;
+	var data = "val=" + bpm/actual_bpm;
+	console.log(data);
+	//var url = "http://localhost:8080/requests/status.xml&command=rate&val="+bpm/actual_bpm;
+	/*$.ajax({
+		url: url,
+		beforeSend : function(xhr) {
+			if(data.authorization !== undefined){
+				xhr.setRequestHeader("Authorization", "Basic " + ":12345");
+				//you can leave the username out, so that it looks like that:    ":password" 
+				//you need the : though and the combination needs to be Base64 encoded
+			//}
+		},
+		success: function (data, status, jqXHR) {
+
+		},
+		error: function(data){
+
+		}
+	});*/
 	$.ajax({
-		url: "http://localhost:9000/call.php",
+		url: "call.php",
 		data: data,
 		type: "POST",
 		success: function(data, textStatus, jqXHR){
 			console.log('Success ' + data);
-			}
+			},
 		error: function (jqXHR, textStatus, errorThrown){
-			console.log('Error ' + jqXHR);
+			console.log('Error ' + JSON.stringify(jqXHR));
 			}
 	});
 	
