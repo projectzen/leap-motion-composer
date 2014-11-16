@@ -28,7 +28,7 @@ $(document).ready(function() {
 
 function runner(){
 	console.log("File changed");
-	actual_bpm = get_tempo($(this).val());
+	actual_bpm = get_tempo();
 };
 
 function bpm_from_measure() {
@@ -41,8 +41,8 @@ function bpm_from_measure() {
 function changeMusic(bpm, avgPeakToPeak) {
 //	$.ajax("http://localhost:8080/requests/status.xml?command=rate&val=" + (bpm / actual_bpm));
 	//var data = "url=http://localhost:8080/requests/status.xml?command=rate&val=2"//+bpm/actual_bpm;
+	var data = "speed=" + bpm/actual_bpm + "&vol=" + (90 + avgPeakToPeak * 2);
 	speed = bpm/actual_bpm;
-	var data = "speed=" + speed + "&vol=" + (50 + avgPeakToPeak * 3);
 	console.log(data);
 	//var url = "http://localhost:8080/requests/status.xml&command=rate&val="+bpm/actual_bpm;
 	/*$.ajax({
@@ -75,26 +75,9 @@ function changeMusic(bpm, avgPeakToPeak) {
 	
 }
 
-function get_tempo(file) {
-	//if(file.substring(file.length - 3) != "mp3") { 
-		var y = window.prompt("Please input BPM");
-		return y;
-	//}
-	/*file = file.replace('C:\\fakepath', './media').replace(/\\/g, "/");
-	console.log(file);
-	$.ajax({
-		method: 'post',
-		url: "bmp_from_wav.php",
-		data: "file="+file,
-		success: function(data, textStatus, jqXHR) {
-			console.log('Success ' + data);
-			y=data;
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			console.log('error');
-		}
-	});
-	return y;*/
+function get_tempo() {
+	var y = window.prompt("Please input BPM");
+	return y;
 }
 
 conductController = new Leap.Controller({
@@ -107,21 +90,21 @@ conductController.connect();
 var sumPeakToPeak = 0;
 var lastBottom;
 
-var paused = false;
+var paused = true;
 
 conductController.on('frame', function(frame) {
 	if (frame.hands.length > 0) {
-		if (frame.hands[0].grabStrength > 0.9) {
+	 	if (frame.hands[0].grabStrength > 0.9) {
 			if(!paused) {
 				$.ajax({
 					url: "stop.php",
 					type: "POST",
 					success: function(data, textStatus, jqXHR){
 						console.log('Success ' + data);
-						},
+					},
 					error: function (jqXHR, textStatus, errorThrown){
 						console.log('Error ' + JSON.stringify(jqXHR));
-						}
+					}
 				});
 				window.currentbeat = 0;
 				window.measure[1] = -1;

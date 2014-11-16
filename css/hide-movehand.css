@@ -1,3 +1,7 @@
 .playback-move-hand {
     display: none;
 }
+
+#fileInput {
+	position: absolute;
+}
