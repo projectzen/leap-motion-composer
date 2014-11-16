@@ -94,7 +94,7 @@ var paused = true;
 
 conductController.on('frame', function(frame) {
 	if (frame.hands.length > 0) {
-	 	if (frame.hands[0].grabStrength > 0.9) {
+	/*if (frame.hands[0].grabStrength > 0.9) {
 			if(!paused) {
 				$.ajax({
 					url: "stop.php",
@@ -110,7 +110,7 @@ conductController.on('frame', function(frame) {
 				window.measure[1] = -1;
 				paused = true;
 			}
-		} else {
+		} else {*/
 			if (window.measure[1] == -1) {
 				window.measure[1] == new Date().getTime();
 			}
@@ -136,6 +136,6 @@ conductController.on('frame', function(frame) {
 					previousPosition = position;
 				}
 			}
-		}
+		//}
 	}
 });
