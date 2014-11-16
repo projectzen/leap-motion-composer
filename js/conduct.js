@@ -68,10 +68,9 @@ function get_tempo(file) {
 		var y = window.prompt("BPM can't be detected. Please input BPM");
 		return y;
 	}
-	var;
 	$.ajax({
 		url: "bmp_from_wav.php",
-		data: "file="+file;
+		data: "file="+file,
 		success: function(data, textStatus, jqXHR) {
 			console.log('Success ' + data);
 			y=data;
