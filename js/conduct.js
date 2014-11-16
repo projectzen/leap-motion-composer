@@ -23,11 +23,12 @@ function reset_the_metro(b) {
 
 $(document).ready(function() {
 	$("canvas").css("top", "30px");
-	$("#fileInput").change(function(){
-		console.log("File changed");
-		actual_bpm = get_tempo($(this).val());
-	});
 });
+
+function runner(){
+	console.log("File changed");
+	actual_bpm = get_tempo($(this).val());
+};
 
 function bpm_from_measure() {
 	window.measure[0] = window.measure[1];
