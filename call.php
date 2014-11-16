@@ -13,36 +13,25 @@ foreach($_POST as $key=>$value) {
 }
 $fields_string = rtrim($fields_string,'&');
 
-//open connection
-$ch = curl_init();
+function curl_request($url) {
+	//open connection
+	$ch = curl_init();
 
-//set the url, number of POST vars, POST data
-echo $url_speed;
-curl_setopt($ch,CURLOPT_URL,$url_speed);
-curl_setopt($ch,CURLOPT_POST,count($_POST));
-curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
-curl_setopt($ch, CURLOPT_USERPWD, ":"."12345");
+	//set the url, number of POST vars, POST data
+	echo $url_speed;
+	curl_setopt($ch,CURLOPT_URL,$url);
+	curl_setopt($ch,CURLOPT_POST,count($_POST));
+	curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
+	curl_setopt($ch, CURLOPT_USERPWD, ":"."12345");
 
-//execute post
-$result = curl_exec($ch);
+	//execute post
+	$result = curl_exec($ch);
 
-//close connection
-curl_close($ch);
+	//close connection
+	curl_close($ch);
+}
 
-//open connection
-$ch = curl_init();
-
-//set the url, number of POST vars, POST data
-echo $url_vol;
-curl_setopt($ch,CURLOPT_URL,$url_vol);
-curl_setopt($ch,CURLOPT_POST,count($_POST));
-curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
-curl_setopt($ch, CURLOPT_USERPWD, ":"."12345");
-
-//execute post
-$result = curl_exec($ch);
-
-//close connection
-curl_close($ch);
-
+curl_request($url_speed);
+curl_request($url_vol);
+curl_request("http://localhost:8080/requests/status.xml?command=pl_play");
 ?>
