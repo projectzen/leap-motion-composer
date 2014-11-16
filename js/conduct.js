@@ -4,6 +4,18 @@ var actual_bpm = 122;
 window.measure = [0,new Date().getTime()];
 window.currentbeat = 0;
 
+var metronome = setInterval(play(), 240000/actual_bpm);
+
+function play() {
+	var sound = document.getElementById(metnoise);
+	sound.Play();
+};
+
+function reset_the_metro(b) {
+	clearInterval(metronome);
+	metronome = setInterval(play(), 240000/b);
+};
+
 function bpm_from_measure() {
 	window.measure[0] = window.measure[1];
 	window.measure[1] = new Date().getTime();
