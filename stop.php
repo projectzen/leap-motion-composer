@@ -1,11 +1,4 @@
 <?php
-$speed = $_POST['speed'];
-$vol = $_POST['vol'];
-$url_speed = "http://localhost:8080/requests/status.xml?command=rate&val=".$speed;
-$url_vol= "http://localhost:8080/requests/status.xml?command=volume&val=".$vol;
-unset($_POST['speed']);
-unset($_POST['vol']);
-
 $fields_string = "";
 //url-ify the data for the POST
 foreach($_POST as $key=>$value) { 
@@ -31,7 +24,5 @@ function curl_request($url) {
 	curl_close($ch);
 }
 
-curl_request($url_speed);
-curl_request($url_vol);
-curl_request("http://localhost:8080/requests/status.xml?command=pl_play");
+curl_request("http://localhost:8080/requests/status.xml?command=pl_pause");
 ?>
