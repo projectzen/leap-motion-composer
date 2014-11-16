@@ -1,4 +1,5 @@
 var previousPosition = [];
+var actual_bpm = 122;
 
 window.measure = [0,new Date().getTime()];
 window.currentbeat = 0;
@@ -11,7 +12,7 @@ function bpm_from_measure() {
 };
 
 function changeTempo(bpm) {
-	console.log("The new tempo is " + bpm);
+	$.ajax("http://localhost:8080/requests/status.xml?command=rate&val=" + (bpm / actual_bpm));
 }
 
 conductController = new Leap.Controller({
