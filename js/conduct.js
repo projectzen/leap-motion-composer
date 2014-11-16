@@ -19,6 +19,7 @@ function reset_the_metro(b) {
 //	actual_bpm = get_tempo(file);
 //});
 
+var x = document.getElementById("file");
 
 function bpm_from_measure() {
 	window.measure[0] = window.measure[1];
