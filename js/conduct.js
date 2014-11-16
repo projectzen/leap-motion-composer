@@ -24,7 +24,20 @@ function bpm_from_measure() {
 };
 
 function changeTempo(bpm) {
-	$.ajax("http://localhost:8080/requests/status.xml?command=rate&val=" + (bpm / actual_bpm));
+//	$.ajax("http://localhost:8080/requests/status.xml?command=rate&val=" + (bpm / actual_bpm));
+	var data = "url=http://localhost:8080/requests/status.xml&command=rate&val="+bpm/actual_bpm;
+	$.ajax({
+		url: "http://localhost:9000/call.php",
+		data: data,
+		type: "POST",
+		success: function(data, textStatus, jqXHR){
+			console.log('Success ' + data);
+			}
+		error: function (jqXHR, textStatus, errorThrown){
+			console.log('Error ' + jqXHR);
+			}
+	});
+	
 }
 
 conductController = new Leap.Controller({
