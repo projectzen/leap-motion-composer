@@ -1,5 +1,5 @@
 var previousPosition = [];
-var actual_bpm = 122;
+var actual_bpm = 138;
 
 window.measure = [0,new Date().getTime()];
 window.currentbeat = 0;
@@ -23,10 +23,10 @@ function bpm_from_measure() {
 	return result;
 };
 
-function changeTempo(bpm) {
+function changeMusic(bpm, avgPeakToPeak) {
 //	$.ajax("http://localhost:8080/requests/status.xml?command=rate&val=" + (bpm / actual_bpm));
 	//var data = "url=http://localhost:8080/requests/status.xml?command=rate&val=2"//+bpm/actual_bpm;
-	var data = "val=" + bpm/actual_bpm;
+	var data = "speed=" + bpm/actual_bpm + "&vol=" + avgPeakToPeak * 4;
 	console.log(data);
 	//var url = "http://localhost:8080/requests/status.xml&command=rate&val="+bpm/actual_bpm;
 	/*$.ajax({
@@ -66,6 +66,9 @@ conductController = new Leap.Controller({
 
 conductController.connect();
 
+var sumPeakToPeak = 0;
+var lastBottom;
+
 conductController.on('frame', function(frame) {
 	for (var i in frame.fingers) {
 		if (frame.fingers[i].type == 1) {
@@ -73,14 +76,16 @@ conductController.on('frame', function(frame) {
 			if (previousPosition) {
 				if (window.currentbeat % 2 == 0 && previousPosition[1] < position[1] - 10)  {
 					window.currentbeat = window.currentbeat + 1;
-					console.log("Beat " + window.currentbeat);
+					lastBottom = previousPosition[1];
 				}
 				else if (window.currentbeat % 2 == 1 && previousPosition[1] > position[1] + 10)  {
 					window.currentbeat = (window.currentbeat + 1) % 8;
-					console.log("Beat " + window.currentbeat);
+					var peakToPeak = previousPosition[1] - lastBottom;
+					sumPeakToPeak += peakToPeak;
 					if (window.currentbeat == 0) {
-						changeTempo(bpm_from_measure());
+						changeMusic(bpm_from_measure(), sumPeakToPeak / 4);
 					}
+					sumPeakToPeak = 0;
 				}
 			}
 			previousPosition = position;
