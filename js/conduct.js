@@ -1,5 +1,5 @@
 var previousPosition = [];
-var actual_bpm = 138;
+var actual_bpm=122;
 
 window.measure = [0,new Date().getTime()];
 window.currentbeat = 0;
@@ -15,6 +15,10 @@ function reset_the_metro(b) {
 	clearInterval(metronome);
 	metronome = setInterval(play(), 240000/b);
 };*/
+//$( document ).ready(function() {
+//	actual_bpm = get_tempo(file);
+//});
+
 
 function bpm_from_measure() {
 	window.measure[0] = window.measure[1];
@@ -57,6 +61,26 @@ function changeMusic(bpm, avgPeakToPeak) {
 			}
 	});
 	
+}
+
+function get_tempo(file) {
+	if(substr((file),-3)!="wav") { 
+		var y = window.prompt("BPM can't be detected. Please input BPM");
+		return y;
+	}
+	var;
+	$.ajax({
+		url: "bmp_from_wav.php",
+		data: "file="+file;
+		success: function(data, textStatus, jqXHR) {
+			console.log('Success ' + data);
+			y=data;
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	});
+	return y;
 }
 
 conductController = new Leap.Controller({
