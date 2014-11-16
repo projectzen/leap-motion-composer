@@ -22,8 +22,10 @@ function reset_the_metro(b) {
 
 
 $(document).ready(function() {
-	$("#file").change(function(){
-	actual_bpm = get_tempo($("#file").value);
+	$("canvas").css("top", "30px");
+	$("#fileInput").change(function(){
+		console.log("File changed");
+		actual_bpm = get_tempo($(this).val());
 	});
 });
 
@@ -71,11 +73,14 @@ function changeMusic(bpm, avgPeakToPeak) {
 }
 
 function get_tempo(file) {
-	if(substr((file),-3)!="wav") { 
-		var y = window.prompt("BPM can't be detected. Please input BPM");
+	//if(file.substring(file.length - 3) != "mp3") { 
+		var y = window.prompt("Please input BPM");
 		return y;
-	}
+	//}
+	/*file = file.replace('C:\\fakepath', './media').replace(/\\/g, "/");
+	console.log(file);
 	$.ajax({
+		method: 'post',
 		url: "bmp_from_wav.php",
 		data: "file="+file,
 		success: function(data, textStatus, jqXHR) {
@@ -86,7 +91,7 @@ function get_tempo(file) {
 			console.log('error');
 		}
 	});
-	return y;
+	return y;*/
 }
 
 conductController = new Leap.Controller({
